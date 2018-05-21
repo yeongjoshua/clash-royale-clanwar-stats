@@ -1,5 +1,7 @@
 # This is a project which records clan war battles for clans in Clash Royale
 
+Modify config.sample.ini and save as config.ini
+
 ## Requires
 ```
 python 3.x
