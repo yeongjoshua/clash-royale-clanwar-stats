@@ -1,8 +1,9 @@
 # This is a project which records clan war battles for clans in Clash Royale
 
-## Libraries Required
+## Requires
 ```
-sqlite 3.3.x and above
+python 3.x
+sqlite 3.x
 ```
 
 ## Start Update Clan Details every hour
