@@ -25,6 +25,7 @@ class ClanWarStatsModule:
     self.autoUpdate = autoUpdate
 
   def updateMemberList(self):
+    print ('Updating clan member...')
     r = requests.get("https://api.royaleapi.com/clan/{0}".format(self.clanTag), headers={"Authorization" : self.crAPI_AUTH})
 
     if r.status_code == 200:
@@ -43,6 +44,7 @@ class ClanWarStatsModule:
       return False
 
   def updateMemberBattleLog(self):
+    print ('Updating battle log...')
     activeMemberTag = self.dbHandler.getActiveClanMemberTag()
     activeMemberNumber = self.dbHandler.getActiveMemberNumber()
     link = "https://api.royaleapi.com/player/{0}/battles".format(activeMemberTag)
@@ -62,5 +64,3 @@ class ClanWarStatsModule:
     else:
       return False
 
-  def getActiveClanMemberTag(self):
-    return self.dbHandler.getActiveClanMemberTag()
