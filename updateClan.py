@@ -12,7 +12,7 @@ from ClanWarStatsModule.ClanWarStatsModule import ClanWarStatsModule
 
 def readConfigFile():
   config = configparser.ConfigParser()
-  config.read('config.ini')
+  config.read(os.path.join(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))), 'config.ini'))
 
   royale_api_auth = config['DEFAULT']['ROYALE_API_AUTH']
   db_path = os.path.join(config['DEFAULT']['DB_PATH'], config['DEFAULT']['DB_NAME'])

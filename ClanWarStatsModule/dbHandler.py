@@ -17,6 +17,11 @@ class dbHandler:
   DB_BATTLES_KEY_RESULT = 'keyResult'
   DB_BATTLES_UTC = 'utcTime'
 
+  DB_TABLE_CW = 'clanWars'
+  DB_CW_ID = 'id'
+  DB_CW_UTC_START = 'utcStart'
+  DB_CW_UTC_END = 'utcEnd'
+
   DB_TABLE_KEY_MATCH = 'keyMatch'
   DB_MATCH_ID = 'id'
   DB_MATCH_NAME = 'name'
@@ -41,6 +46,7 @@ class dbHandler:
       c = self.conn.cursor()
       c.execute('CREATE table {0} ({1} INTEGER PRIMARY KEY AUTOINCREMENT, {2} TEXT, {3} TEXT, {4} INTEGER)'.format(self.DB_TABLE_MEMBER, self.DB_MEMBER_ID, self.DB_MEMBER_TAG, self.DB_MEMBER_NAME, self.DB_MEMBER_KEY_STATUS))
       c.execute('CREATE table {0} ({1} INTEGER PRIMARY KEY AUTOINCREMENT, {2} INTEGER, {3} INTEGER, {4} INTEGER, {5} INTEGER, UNIQUE({2}, {5}))'.format(self.DB_TABLE_BATTLES, self.DB_BATTLES_ID, self.DB_BATTLES_KEY_MEMBERID, self.DB_BATTLES_KEY_MATCH, self.DB_BATTLES_KEY_RESULT, self.DB_BATTLES_UTC))
+      c.execute('CREATE table {0} ({1} INTEGER PRIMARY KEY AUTOINCREMENT, {2} INTEGER, {3} INTEGER)'.format(self.DB_TABLE_CW, self.DB_CW_ID, self.DB_CW_UTC_START, self.DB_CW_UTC_END))
       c.execute('CREATE table {0} ({1} INTEGER PRIMARY KEY, {2} TEXT)'.format(self.DB_TABLE_KEY_MATCH, self.DB_MATCH_ID, self.DB_MATCH_NAME))
       c.execute('CREATE table {0} ({1} INTEGER PRIMARY KEY, {2} TEXT)'.format(self.DB_TABLE_KEY_RESULT, self.DB_RESULT_ID, self.DB_RESULT_NAME))
       c.execute('CREATE table {0} ({1} INTEGER PRIMARY KEY, {2} TEXT)'.format(self.DB_TABLE_KEY_STATUS, self.DB_STATUS_ID, self.DB_STATUS_NAME))
@@ -71,8 +77,8 @@ class dbHandler:
     c = self.conn.cursor()
     c.execute("INSERT INTO {0} ({1}, {2}, {3}) VALUES (?, ?, ?)".format(self.DB_TABLE_MEMBER, self.DB_MEMBER_NAME, self.DB_MEMBER_TAG, self.DB_MEMBER_KEY_STATUS), (name, tag, status))
     self.conn.commit()
-
     return True
+
   def updaterMemberStatus(self, tag, status):
     c = self.conn.cursor()
     c.execute("UPDATE {0} SET {1}='{2}' WHERE {3}='{4}'".format(self.DB_TABLE_MEMBER, self.DB_MEMBER_KEY_STATUS, status, self.DB_MEMBER_TAG, tag))
