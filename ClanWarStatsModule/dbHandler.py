@@ -96,7 +96,8 @@ class dbHandler:
     c = self.conn.cursor()
     c.execute("SELECT * FROM {0} WHERE {1}=? AND {2}=?".format(self.DB_TABLE_BATTLES, self.DB_BATTLES_KEY_MEMBERID, self.DB_BATTLES_UTC), (memberId, utcTime))
     for row in c:
-      return row
+      if row == None:
+        return row
 
   def getMemberIdFromTag(self, memberTag):
     c = self.conn.cursor()
@@ -127,7 +128,7 @@ class dbHandler:
 
   def updateMemberBattleLog(self, memberTag, matchType, result, utcTime):
     memberId = self.getMemberIdFromTag(memberTag)
-    if not memberId == None and self.readBattle(memberTag, utcTime) == None:
+    if not memberId == None and self.readBattle(memberId, utcTime) == None:
       self.createBattle(memberId, matchType, result, utcTime)
 
     return True
