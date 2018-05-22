@@ -96,8 +96,7 @@ class dbHandler:
     c = self.conn.cursor()
     c.execute("SELECT * FROM {0} WHERE {1}=? AND {2}=?".format(self.DB_TABLE_BATTLES, self.DB_BATTLES_KEY_MEMBERID, self.DB_BATTLES_UTC), (memberId, utcTime))
     for row in c:
-      if row == None:
-        return row
+      return row
 
   def getMemberIdFromTag(self, memberTag):
     c = self.conn.cursor()
