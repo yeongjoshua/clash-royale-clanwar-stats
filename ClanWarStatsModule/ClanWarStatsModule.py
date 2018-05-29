@@ -48,6 +48,7 @@ class ClanWarStatsModule:
     activeMemberTag = self.dbHandler.getActiveClanMemberTag()
     activeMemberNumber = self.dbHandler.getActiveMemberNumber()
     link = "https://api.royaleapi.com/player/{0}/battles".format(activeMemberTag)
+
     r = requests.get(link, headers={"Authorization" : self.crAPI_AUTH}, timeout=180)
     if r.status_code == 200:
       battles_json = r.json()
@@ -55,12 +56,15 @@ class ClanWarStatsModule:
       if activeMemberNumber > 1 :
         for player in battles_json:
           for log in player:
-            if log['type'] == self.API_COLLECTION_DAY or log['type'] == self.API_WAR_DAY:
+            if (log['type'] == self.API_COLLECTION_DAY or log['type'] == self.API_WAR_DAY) and self.clanTag == str(log['team'][0]['clan']['tag']):
               memberTag = log['team'][0]['tag']
               matchType = self.dbHandler.DB_VALUE_MATCH_COLLECTION_DAY[0] if log['type'] == self.API_COLLECTION_DAY else self.dbHandler.DB_VALUE_MATCH_WAR_DAY[0]
               result = self.dbHandler.DB_VALUE_RESULT_WIN[0] if log['winner'] > 0 else self.dbHandler.DB_VALUE_RESULT_LOSE[0]
               utcTime = log['utcTime']
+
               self.dbHandler.updateMemberBattleLog(memberTag, matchType, result, utcTime)
+      return True
     else:
       return False
+
 

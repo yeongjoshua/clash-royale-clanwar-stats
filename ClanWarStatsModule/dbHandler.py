@@ -94,7 +94,6 @@ class dbHandler:
     c = self.conn.cursor()
     c.execute("INSERT INTO {0} ({1}, {2}, {3}, {4}) VALUES (?, ?, ?, ?)".format(self.DB_TABLE_BATTLES, self.DB_BATTLES_KEY_MEMBERID, self.DB_BATTLES_KEY_MATCH, self.DB_BATTLES_KEY_RESULT, self.DB_BATTLES_UTC), (memberId, match, result, utcTime))
     self.conn.commit()
-
     return True
 
   def readBattle(self, memberId, utcTime):
@@ -127,14 +126,13 @@ class dbHandler:
       active_Tag.append(member[self.DB_MEMBER_TAG])
       if self.readMember_Tag(member[self.DB_MEMBER_TAG]) == None:
         self.createMember(member[self.DB_MEMBER_TAG], member[self.DB_MEMBER_NAME])
-
     self.updaterOtherMemberInactive(active_Tag)
+    return True
 
   def updateMemberBattleLog(self, memberTag, matchType, result, utcTime):
     memberId = self.getMemberIdFromTag(memberTag)
     if not memberId == None and self.readBattle(memberId, utcTime) == None:
       self.createBattle(memberId, matchType, result, utcTime)
-
     return True
 
   def getActiveClanMemberTag(self):
